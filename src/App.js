@@ -2,6 +2,24 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import Customer from './components/customer'
 import './App.css';
+import Paper from '@material-ui/core/Paper'; //컴포넌트의 외부를 감쌀 때 쓰는 컴포넌트
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import {withStyles} from '@material-ui/core/styles';
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit*3,
+    overflowX: "auto" //x축으로 오버플로우 가능,,
+  },
+  table:{
+    minWidth: 1080 //가로 최소 1080px -> 가로스크롤바 생길수도 있다 이말
+  }
+})
 
 const customers = [{
   'id': 1,
@@ -30,24 +48,31 @@ const customers = [{
 
 class App extends Component{
   render(){
+    const { classes } = this.props;
     return(
-      <div>
-        {
-          customers.map(c=>{//map함수 쓸때는 key라는 props가 필수
-            return(
-              <Customer
-                key={c.id}
-                id={c.id}
-                image={c.image}
-                name={c.name}
-                birthday={c.birthday}
-                gender={c.gender}
-                job={c.job}
-              />
-            )
-          })
-        }
-      </div>
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>번호</TableCell>
+              <TableCell>이미지</TableCell>
+              <TableCell>이름</TableCell>
+              <TableCell>생일</TableCell>
+              <TableCell>성별</TableCell>
+              <TableCell>직업</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {customers.map(c=>{//map함수 쓸때는 key라는 props가 필수
+              return(
+                <Customer
+                  key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}
+                />
+              )
+            })}
+          </TableBody>
+        </Table>
+      </Paper>
         // <Customer
         //   id={customer[0].id}
         //   image={customer[0].image}
@@ -97,4 +122,4 @@ class App extends Component{
 //   );
 // }
 
-export default App;
+export default withStyles(styles)(App);
